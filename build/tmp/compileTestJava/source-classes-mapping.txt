@@ -1,0 +1,4 @@
+com/test/repository/MemoryMemberRepositoryTest.java
+ com.test.repository.MemoryMemberRepositoryTest
+com/test/service/MemberServiceTest.java
+ com.test.service.MemberServiceTest
