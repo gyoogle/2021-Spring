@@ -77,3 +77,41 @@ test 내 resource 디렉토리를 생성 후 yml을 따로 관리하여 test DB�
 Exception 처리되는 test 메서드 같은 경우 `@Test(expected = IllegalStateException.class)`와 같이 expected로 원하는 exception을 지정해줄 수 있다.
 
 <br>
+
+좋은 테스트는 메서드마다 단일 테스트로 하는 것이 좋다.
+
+<br>
+
+## 비즈니스 로직
+
+데이터를 가지고 있는 쪽에서 비즈니스 메서드를 가지고 있는 것이 응집력이 있다.
+
+따라서 Entity 상에서 변경해야 할 일이 있으면 Setter를 사용하는 것이 아니라 Entity 안에 핵심 비즈니스 로직을 만들어 관리해야 한다.
+
+> 다른 공간에서 관리하는 것보다 데이터를 지닌 Entity에서 관리해야 편하다.
+
+<br>
+
+## EntityManager persist & merge
+
+```java
+public void save(Item item) {
+    if (item.getId() == null) {
+        em.persist(item);
+    } else {
+        em.merge(item); // update와 유사
+    }
+}
+```
+
+- persist : 신규 등록
+
+- merge : 이미 등록된 걸 가져옴 (update와 유사)
+
+<br>
+
+## 도메인 모델 패턴
+
+도메인 엔티티에 핵심 비즈니스 로직을 모두 구현하고, 서비스에서는 호출 형식으로만 구현하는 것
+
+단위테스트로 메서드만 테스트하도록 구현하기 용이하다.
