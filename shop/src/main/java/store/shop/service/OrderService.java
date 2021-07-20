@@ -11,6 +11,7 @@ import store.shop.domain.item.Item;
 import store.shop.repository.ItemRepository;
 import store.shop.repository.MemberRepository;
 import store.shop.repository.OrderRepository;
+import store.shop.repository.OrderSearch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,7 @@ public class OrderService {
     }
 
     // 검색
-    //public List<Order> findOrders(OrderSearch orderSearch) {
-    //    return orderRepository.findAll(orderSearch);
-    //}
+    public List<Order> findOrders(OrderSearch orderSearch) {
+        return orderRepository.findAllByString(orderSearch);
+    }
 }

@@ -115,3 +115,45 @@ public void save(Item item) {
 도메인 엔티티에 핵심 비즈니스 로직을 모두 구현하고, 서비스에서는 호출 형식으로만 구현하는 것
 
 단위테스트로 메서드만 테스트하도록 구현하기 용이하다.
+
+<br>
+
+## BindingResult
+
+validation에 문제가 있을 때 결과를 담아주는 객체
+
+```java
+public String create(@Valid MemberForm memberForm, BindingResult result) {
+
+    if(result.hasErrors()) {
+        return "members/createMemberForm";
+    }
+
+    Address address = new Address(memberForm.getCity(), memberForm.getStreet(), memberForm.getZipcode());
+    Member member = new Member();
+    member.setName(memberForm.getName());
+    member.setAddress(address);
+
+    memberService.join(member);
+    return "redirect:/";
+}
+```
+
+hasErrors()로 에러 유무를 확인할 수 있다.
+
+<br>
+
+validation을 활용할 때는 Entity보다 form 데이터를 만들어 받는 것이 유지보수에 좋다. 실무에서 엔티티는 핵심 비즈니스 로직만 가지고 있고, 화면을 위한 로직은 없어야 한다. 따라서 화면이나 API에 맞 는 폼 객체나 DTO를 사용하는 것이 좋다.
+
+> API를 만들 때는 엔티티를 외부로 반환하면 안된다. API 스펙이 변할 수 있기 때문
+
+<br>
+
+## 변경 감지 & 병합
+
+변경 감지 == dirty checking으로 많이 부른다.
+
+변경 감지 기능을 사용하면 원하는 속성만 선택해서 변경할 수 있지만, 병합을 사용하면 모든 속성이 변경된다. 병합시 값이 없으면 null 로 업데이트 할 위험도 있다. (병합은 모든 필드를 교체한다.)
+
+따라서 엔티티 변경에는 항상 변경 감지를 사용하자 (merge X)
+
