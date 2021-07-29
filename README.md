@@ -157,6 +157,8 @@ validation을 활용할 때는 Entity보다 form 데이터를 만들어 받는 �
 
 따라서 엔티티 변경에는 항상 변경 감지를 사용하자 (merge X)
 
+변경 감지 → 영속 상태값 변경 → 스프링 AOP 동작 → JPA flush → 영속성 트랜잭션 커밋 → 종료
+
 <br>
 
 ## 엔티티 대신 DTO를 RequestBody에 매핑
