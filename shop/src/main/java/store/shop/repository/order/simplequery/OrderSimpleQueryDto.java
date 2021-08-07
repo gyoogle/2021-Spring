@@ -1,4 +1,4 @@
-package store.shop.repository;
+package store.shop.repository.order.simplequery;
 
 import lombok.Data;
 import store.shop.domain.Address;

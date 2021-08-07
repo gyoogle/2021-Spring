@@ -9,12 +9,12 @@ import store.shop.domain.Order;
 import store.shop.domain.OrderStatus;
 import store.shop.repository.OrderRepository;
 import store.shop.repository.OrderSearch;
-import store.shop.repository.OrderSimpleQueryDto;
+import store.shop.repository.order.simplequery.OrderSimpleQueryDto;
+import store.shop.repository.order.simplequery.OrderSimpleQueryRepository;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -23,7 +23,7 @@ import static java.util.stream.Collectors.toList;
 public class OrderSimpleApiController {
 
     private final OrderRepository orderRepository;
-    private final EntityManager em;
+    private final OrderSimpleQueryRepository orderSimpleQueryRepository;
 
     @GetMapping("/api/v1/simple-orders")
     public List<Order> ordersV1() {
@@ -55,7 +55,7 @@ public class OrderSimpleApiController {
 
     @GetMapping("/api/v4/simple-orders")
     public List<OrderSimpleQueryDto> ordersV4() {
-        return orderRepository.findOrderDtos();
+        return orderSimpleQueryRepository.findOrderDtos();
     }
 
     @Data
