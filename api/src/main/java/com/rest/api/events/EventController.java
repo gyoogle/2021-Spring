@@ -26,12 +26,12 @@ public class EventController {
     public ResponseEntity createEvent(@RequestBody @Valid EventDto eventDto, BindingResult result) {
 
         if(result.hasErrors()) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(result);
         }
 
         eventValidator.validate(eventDto, result);
         if(result.hasErrors()) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(result);
         }
 
         Event event = eventDto.toEntity();
