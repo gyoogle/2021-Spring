@@ -2,14 +2,17 @@ package com.rest.api.events;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode(of = "id")
 public class Event {
 
-    private Integer id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String description;
     private LocalDateTime beginEnrollmentDateTime;
@@ -22,10 +25,11 @@ public class Event {
     private int limitOfEnrollment;
     private boolean offline;
     private boolean free;
+    @Enumerated(EnumType.STRING)
     private EventStatus eventStatus = EventStatus.DRAFT;
 
     @Builder
-    public Event(Integer id, String name, String description,
+    public Event(Long id, String name, String description,
                  LocalDateTime beginEnrollmentDateTime, LocalDateTime closeEnrollmentDateTime,
                  LocalDateTime beginEventDateTime, LocalDateTime endEventDateTime,
                  String location, int basePrice, int maxPrice, int limitOfEnrollment,
