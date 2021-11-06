@@ -2,13 +2,13 @@ package com.rest.api.events;
 
 import com.rest.api.events.dto.EventDto;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.Errors;
+import org.springframework.validation.BindingResult;
 
 import java.time.LocalDateTime;
 
 @Component
 public class EventValidator {
-    public void validate(EventDto eventDto, Errors errors) {
+    public void validate(EventDto eventDto, BindingResult errors) {
         if(eventDto.getBasePrice() > eventDto.getMaxPrice() && eventDto.getMaxPrice() != 0) {
             errors.rejectValue("basePrice", "wrongValue", "BasePrice is wrong.");
             errors.rejectValue("maxPrice", "wrongValue", "MaxPrice is wrong.");
