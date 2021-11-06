@@ -1,6 +1,7 @@
 package com.rest.api.events;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rest.api.events.dto.EventDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class EventControllerTest {
     @Test
     public void createEvent() throws Exception {
 
-        Event event = Event.builder()
+        EventDto event = EventDto.builder()
                 .name("Spring")
                 .description("REST API Development")
                 .beginEnrollmentDateTime(LocalDateTime.of(2010, 11, 23, 14, 23))
@@ -56,4 +57,30 @@ public class EventControllerTest {
                 .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE));
     }
 
+    @Test
+    public void createEvent_Bad_Request() throws Exception {
+        Event event = Event.builder()
+                .name("Spring")
+                .description("REST API Development")
+                .beginEnrollmentDateTime(LocalDateTime.of(2010, 11, 23, 14, 23))
+                .closeEnrollmentDateTime(LocalDateTime.of(2018, 11, 30, 14, 23))
+                .beginEventDateTime(LocalDateTime.of(2018, 12, 5, 14, 30))
+                .endEventDateTime(LocalDateTime.of(2018, 12, 6, 14, 30))
+                .basePrice(100)
+                .maxPrice(200)
+                .limitOfEnrollment(100)
+                .location("D Start up Factory")
+                .free(true)
+                .offline(false)
+                .eventStatus(EventStatus.PUBLISHED)
+                .build();
+
+        mockMvc.perform(post("/api/events/")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaTypes.HAL_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(event)))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+        ;
+    }
 }
