@@ -2,6 +2,7 @@ package com.rest.api.events.dto;
 
 
 import com.rest.api.events.Event;
+import com.rest.api.events.EventStatus;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -32,9 +33,10 @@ public class EventDto {
     private int maxPrice;  // (optional)
     @Min(0)
     private int limitOfEnrollment;
+    private EventStatus eventStatus;
 
     @Builder
-    public EventDto(String name, String description, LocalDateTime beginEnrollmentDateTime, LocalDateTime closeEnrollmentDateTime, LocalDateTime beginEventDateTime, LocalDateTime endEventDateTime, String location, int basePrice, int maxPrice, int limitOfEnrollment) {
+    public EventDto(String name, String description, LocalDateTime beginEnrollmentDateTime, LocalDateTime closeEnrollmentDateTime, LocalDateTime beginEventDateTime, LocalDateTime endEventDateTime, String location, int basePrice, int maxPrice, int limitOfEnrollment, EventStatus eventStatus) {
         this.name = name;
         this.description = description;
         this.beginEnrollmentDateTime = beginEnrollmentDateTime;
@@ -45,6 +47,7 @@ public class EventDto {
         this.basePrice = basePrice;
         this.maxPrice = maxPrice;
         this.limitOfEnrollment = limitOfEnrollment;
+        this.eventStatus = eventStatus;
     }
 
     public Event toEntity() {
@@ -59,6 +62,7 @@ public class EventDto {
                 .basePrice(basePrice)
                 .maxPrice(maxPrice)
                 .limitOfEnrollment(limitOfEnrollment)
+                .eventStatus(eventStatus)
                 .build();
     }
 }
