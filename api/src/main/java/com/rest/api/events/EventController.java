@@ -1,5 +1,6 @@
 package com.rest.api.events;
 
+import com.rest.api.events.dto.EventDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,8 @@ public class EventController {
     private final EventRepository eventRepository;
 
     @PostMapping
-    public ResponseEntity createEvent(@RequestBody Event event) {
+    public ResponseEntity createEvent(@RequestBody EventDto eventDto) {
+        Event event = eventDto.toEntity();
         Event newEvent = eventRepository.save(event);
         URI createURI = linkTo(EventController.class).slash(newEvent.getId()).toUri();
         return ResponseEntity.created(createURI).body(newEvent);
